@@ -1,22 +1,13 @@
-'use strict';
-
-/**
- * @ngdoc function
- * @name angularJs.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of angularJs
- */
 angular.module('angularJs')
-  .controller('MainCtrl', function($scope) {
-    $scope.tasks = [
-      'view',
-      'controller',
-      'route',
-      'directive',
-      'filter',
-      'service',
-      'factory',
-      'constant'
-    ];
+  .controller('MainCtrl', function($scope, $http) {
+    getTask(); // Load all available tasks
+    function getTask() {
+      $http.post("ajax/getTask.php").success(function(data) {
+        $scope.tasks = data;
+      });
+    };
+
+    $scope.delete = function(index) {
+      $scope.tasks.splice(index, 1);
+    }
   });
